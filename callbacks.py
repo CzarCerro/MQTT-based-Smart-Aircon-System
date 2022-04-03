@@ -30,6 +30,5 @@ def on_publish(client, userdata, mid):
 
 # Callback to print message
 def on_message(client, userdata, msg):
-    topic = msg.topic
     m_decode = str(msg.payload.decode("utf-8","ignore"))
     print("Subscriber: "+msg.topic, m_decode)

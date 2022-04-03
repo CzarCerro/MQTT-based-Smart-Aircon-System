@@ -25,7 +25,7 @@ class DHT11:
 
     # Return humidity
     def getHumidity(self):
-        return 50
+        return self.humidity
 
     # Set temperature
     def setTemp(self, temperature):

@@ -32,6 +32,7 @@ print("Connecting to broker", IP)
 client.connect(IP)  # Connect to IP address
 client.loop_start()  # Loop start
 client.subscribe("myoffice/conferenceroom/temperature")
+client.subscribe("myoffice/conferenceroom/humidity")
 
 while True:
     pass
