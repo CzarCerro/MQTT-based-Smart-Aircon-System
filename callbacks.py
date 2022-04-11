@@ -25,10 +25,11 @@ def on_disconnect(client, userdata, rc):
 
 # Callback to print disconnect status
 def on_publish(client, userdata, mid):
-    print("Published data")
+    #print("Published data")
     pass
 
 # Callback to print message
 def on_message(client, userdata, msg):
     m_decode = str(msg.payload.decode("utf-8","ignore"))
     print("Subscriber: "+msg.topic, m_decode)
+

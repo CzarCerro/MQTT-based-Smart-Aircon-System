@@ -10,10 +10,6 @@ import configuration
 
 
 
-
-
-
-
 # Set instance name
 client = mqtt.Client()
 
@@ -24,7 +20,6 @@ client.on_message = callbacks.on_message
 client.on_publish = callbacks.on_publish
 
 IP = configuration.IP
-
 print("Connecting to broker", IP)
 
 
@@ -32,7 +27,7 @@ print("Connecting to broker", IP)
 client.connect(IP)  # Connect to IP address
 client.loop_start()  # Loop start
 client.subscribe("myoffice/conferenceroom/temperature")
-client.subscribe("myoffice/conferenceroom/humidity")
+client.subscribe("myoffice/mainroom/humidity")
 
 while True:
     pass
