@@ -30,6 +30,9 @@ class Aircon:
     conferenceroomCount = 0
     ID = ""
     client = ""
+    airconMode = ""
+    speed = 50
+    temp = 23
 
     # Set ID
     def setID(self, ID):
@@ -44,6 +47,7 @@ class Aircon:
         for i in range(4):
             self.display[i + 24 + 4] = black
             self.display[i + 32 + 4] = black
+        self.airconMode = "Cool"
 
     # Dehumidifying mode
     def dry(self):
@@ -54,8 +58,11 @@ class Aircon:
         for i in range(4):
             self.display[i + 24 + 4] = red
             self.display[i + 32 + 4] = red
+        self.airconMode = "Dry"
 
+    #Set temperature display
     def temperature(self, control):
+        temp = control
         if control < 0.13:
             control = 0.13
         if control > 1:
@@ -69,13 +76,27 @@ class Aircon:
             self.display[i] = yellow
             self.display[i + 8] = yellow
 
+        if temp < 0:
+            temp = 0
+        if temp > 1:
+            temp = 1
+
+        self.temp = temp*100
+
+    # Set power display
     def power(self, control):
-        print(control)
+        temp = control
         if control < 0.13:
             control = 0.13
         if control > 1:
             control = 1
 
+        if temp < 0:
+            temp = 0
+        if temp > 1:
+            temp = 1
+
+        self.speed = temp*100
 
         # Reset LED display
         for i in range(8):
@@ -170,6 +191,11 @@ class Subscriber:
         Thread(target=self.subscribe).start()
         Thread(target=self.aircon.run()).start()
 
+        try:
+            Thread(target=self.publish()).start()
+        except:
+            pass
+
     # Callback to handle connection status
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
@@ -196,6 +222,7 @@ class Subscriber:
 
         self.aircon.process(msg.topic, m_decode)
 
+    # Subscribes to broker
     def subscribe(self):
         try:
             self.connect()
@@ -204,3 +231,11 @@ class Subscriber:
                 pass
         except:
             print("Failed to establish connection")
+
+    #Publishes aircon values
+    def publish(self):
+        while True:
+            self.client.publish("myoffice/" + self.Topic + "/aircon/mode",self.aircon.airconMode, qos=2, retain=True)
+            self.client.publish("myoffice/" + self.Topic + "/aircon/speed","{0:.2f}".format(self.aircon.speed), qos=2, retain=True)
+            self.client.publish("myoffice/" + self.Topic + "/aircon/temp","{0:.2f}".format(self.aircon.temp), qos=2, retain=True)
+            time.sleep(1)

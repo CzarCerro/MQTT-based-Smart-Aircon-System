@@ -233,13 +233,18 @@ class Publisher:
                 print(self.Topic + " publishing: " + str(self.dht11.getTemp()) + "   " + str(
                     self.dht11.getHumidity()))
 
+                time.sleep(3)
+
             # Else, publish simulated data if argument is "device2"
             else:
                 self.client.publish(self.Topic + "/temperature", device2temp, qos=2,
                                     retain=True)
 
-                self.client.publish(self.Topic + "/humidity", device2temp, qos=2,
+                self.client.publish(self.Topic + "/humidity", device2humidity, qos=2,
                                     retain=True)
+
+                print(self.Topic + " publishing: " + str(device2temp) + "   " + str(
+                    device2humidity))
 
                 # Temperature data simulation
                 if incrementTemp:
@@ -250,7 +255,7 @@ class Publisher:
                 else:
                     device2temp = device2temp - 1
                     if device2temp < 15:
-                        incrementHumidity = True
+                        incrementTemp = True
 
                 #Humidiity data simulation
                 if incrementHumidity:
@@ -268,7 +273,9 @@ class Publisher:
                 self.client.publish(self.Topic + "/humidity", str(float(device2humidity)), qos=2,
                                     retain=True)
 
-            time.sleep(3)
+                time.sleep(1)
+
+
 
 
     #Publish values

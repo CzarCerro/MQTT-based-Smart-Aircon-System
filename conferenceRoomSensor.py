@@ -8,7 +8,9 @@ if __name__ == "__main__":
     client.setTopic(Topic)
 
     #If system argument = device2, use simulated values instead
-    if sys.argv[1] == "device2":
-        client.setDeviceFlag(True)
-
+    try:
+        if sys.argv[1] == "device2":
+            client.setDeviceFlag(True)
+    except:
+        pass
     client.run()

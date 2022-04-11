@@ -1,6 +1,6 @@
 """
-Holds configuration parameters of the broker
+Holds configuration parameters of the broker such as IP address and port number
 """
 
-IP = "192.168.43.241"  # Set IP address of broker
+IP = "localhost"  # Set IP address of broker
 PORT = 1883
